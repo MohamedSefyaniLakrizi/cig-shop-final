@@ -43,9 +43,9 @@ router.get('/cart/', authorization,  async (req, res) => {
     } 
   });
 
-  router.put('/cart/:product_id', authorization, async (req, res) => {
+  router.post('/cart/:product_id', authorization, async (req, res) => {
     try {
-      const product_id = parseInt(req.params.product_id);
+      const product_id = req.body.product_id;
       const user_id = req.user.id; // assuming you have user authentication implemented
   
       // check if the cart item exists for the specified product and user
