@@ -6,19 +6,7 @@ router.post('/', async function (req, res) {
     try {
         const productId = req.body.product_id;
     
-        // Check if the user exists
-        const user = await pool.query('SELECT * FROM users WHERE id = $1', [req.user.id]);
-        if (user.rowCount === 0) {
-          return res.status(404).json({ error: 'User not found' });
-        }
-    
-        // Check if the product exists
-        const product = await pool.query('SELECT * FROM products WHERE id = $1', [productId]);
-        if (product.rowCount === 0) {
-          return res.status(404).json({ error: 'Product not found' });
-        }
-    
-        // Add the item to the cart
+
             // Check if the item already exists in the cart
         const existingCartItem = await pool.query('SELECT * FROM cart_items WHERE user_id = $1 AND product_id = $2', [req.user.id, productId]);
         if (existingCartItem.rowCount === 0) {
