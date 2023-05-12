@@ -29,7 +29,8 @@ const Home: React.FC<HomeProps> = ({navigation}) => {
   const handleProductPress = (id: number) => {
     console.log("id is : " + id);
     
-    navigation.navigate('AppTabs', {id: id, screen: 'ProductDetails' });
+    //navigation.navigate('AppTabs', {id, screen: 'ProductDetails' });
+    navigation.navigate('ProductDetails', { id });
 
   };
 

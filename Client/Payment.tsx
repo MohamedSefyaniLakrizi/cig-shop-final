@@ -23,7 +23,7 @@ const Payment =  () => {
         })
         .catch(error => console.error(error));
     };
-
+    getCart();
       
   }, []);
 
