@@ -18,6 +18,8 @@ const Payment =  () => {
       .then(data => {
         if (data.success) {
           setCartItems(data.cartItems);
+          console.log("cart items are: " + JSON.stringify(data.cartItems));
+          
         } else {
           console.error(data.message);
         }
@@ -64,7 +66,7 @@ const Payment =  () => {
         <Text style={styles.itemDescription}>{item.description}</Text>
         <Text style={styles.itemPrice}>{item.price} DH</Text>
         <Text style={styles.itemQuantity}>Quantity: {item.quantity}</Text>
-        <TouchableOpacity style={styles.removeItemButton} onPress={() => removeCartItem(item.id)} />
+        <TouchableOpacity style={styles.removeItemButton} onPress={() => removeCartItem(item.product_id)} />
         <Text style={styles.removeItemButtonText}>Remove Item</Text>
       </View>
     </View>

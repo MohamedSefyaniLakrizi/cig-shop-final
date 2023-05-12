@@ -30,7 +30,7 @@ router.post('/', authorization, async function (req, res) {
 router.get('/cart/', authorization,  async (req, res) => {
     try {
       const result = await pool.query(`
-        SELECT cart_items.id, products.name, products.description, products.price, products.type, products.image_url, cart_items.quantity
+        SELECT *
         FROM cart_items
         INNER JOIN products ON cart_items.product_id = products.id
         WHERE cart_items.user_id = $1;
