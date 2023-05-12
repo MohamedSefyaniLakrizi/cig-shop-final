@@ -54,7 +54,7 @@ const Register: React.FC<RegisterProps> = ({ navigation }) => {
     setErrorMessage('');
 
     try {
-      const response = await fetch('https://cig-final.onrender.com/auth/register', {
+      const response = await fetch('https://cig-et0r.onrender.com/auth/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
