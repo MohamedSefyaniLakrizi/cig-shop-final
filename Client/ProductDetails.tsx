@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { StackNavigationProp } from '@react-navigation/stack';
+import { Picker } from '@react-native-picker/picker';
 
 
 type ProductProps = {
@@ -13,6 +14,7 @@ type ProductProps = {
 const ProductDetails: React.FC<ProductProps> = ({ route, navigation }) => {
   const [product, setProduct] = useState(null);
   const [id, setId] = useState(route.params.id);
+  const [quantity, setQuantity] = useState(1);
   useEffect(() => {
 
     console.log("id in product detail is: " + JSON.stringify(id));
@@ -33,7 +35,8 @@ const ProductDetails: React.FC<ProductProps> = ({ route, navigation }) => {
             'token': token
           },
           body: JSON.stringify({
-            product_id: id
+            product_id: id,
+            quantity: quantity
           })
         });
         const responseData = await response.json();
@@ -57,6 +60,18 @@ const ProductDetails: React.FC<ProductProps> = ({ route, navigation }) => {
       <Text style={styles.title}>{product.name}</Text>
       <Text style={styles.price}>${product.price} DH</Text>
       <Text style={styles.description}>{product.description}</Text>
+      <View style={styles.quantityPicker}>
+        <Text style={styles.quantityText}>Quantity:</Text>
+        <Picker
+          selectedValue={quantity}
+          onValueChange={(itemValue) => setQuantity(itemValue)}
+          style={styles.picker}
+        >
+          {[...Array(10)].map((_, i) => (
+            <Picker.Item key={i} label={String(i + 1)} value={i + 1} />
+          ))}
+        </Picker>
+      </View>
       <TouchableOpacity style={styles.button} onPress={addToCart}>
         <Text style={styles.buttonText}>Add to Cart</Text>
       </TouchableOpacity>
@@ -101,6 +116,39 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 16,
     fontWeight: 'bold',
+  },
+  quantityPicker: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 16,
+    marginBottom: 32,
+  },
+  quantityButton: {
+    backgroundColor: '#ddd',
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    borderRadius: 4,
+    marginHorizontal: 8,
+  },
+  quantityText: {
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  pickerContainer: {
+    backgroundColor: '#fff',
+    borderColor: '#ddd',
+    borderWidth: 1,
+    borderRadius: 4,
+    paddingHorizontal: 8,
+    height: 40,
+    marginVertical: 8,
+    justifyContent: 'center',
+    width: '100%',
+  },
+  picker: {
+    color: '#333',
+    fontSize: 16,
   },
 });
 

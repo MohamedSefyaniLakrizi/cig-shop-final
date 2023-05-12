@@ -43,5 +43,28 @@ router.get('/cart/', authorization,  async (req, res) => {
     } 
   });
 
+  router.put('/cart/:product_id', async (req, res) => {
+    try {
+      const product_id = parseInt(req.params.product_id);
+      const user_id = req.user.id; // assuming you have user authentication implemented
+  
+      // check if the cart item exists for the specified product and user
+      const { rows } = await pool.query('SELECT * FROM cart_items WHERE user_id = $1 AND product_id = $2', [user_id, product_id]);
+      if (rows.length === 0) {
+        return res.status(404).json({ message: 'Cart item not found' });
+      }
+  
+      // update the cart item by reducing the quantity by 1
+      const updatedCartItem = await pool.query('UPDATE cart_items SET quantity = $1 WHERE user_id = $2 AND product_id = $3 RETURNING *', [rows[0].quantity - 1, user_id, product_id]);
+  
+      // return the updated cart item
+      return res.status(200).json(updatedCartItem.rows[0]);
+  
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ message: 'Internal server error' });
+    }
+  });
+
 
 module.exports = router;
