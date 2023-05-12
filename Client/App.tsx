@@ -9,15 +9,10 @@ import Payment from './Payment';
 import Profile from './Profile';
 import { createBottomTabNavigator, BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import AuthContext from './AuthContext';
-import AddRound from './routes/AddRound';
-import AddRib from './routes/AddRib';
-import AddRibSuccessful from './routes/AddRibSuccessful';
-import AddRoundSuccessful from './routes/AddRoundSuccessful';
-import AddRoundSuccessfulInvited from './routes/AddRoundSuccessfulInvited';
+
 import ProductDetails from './ProductDetails';
 import * as Font from 'expo-font';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import RoundComponent from './components/Dart/RoundStarted';
 
 const Stack = createStackNavigator();
 const BottomTab = createBottomTabNavigator();
