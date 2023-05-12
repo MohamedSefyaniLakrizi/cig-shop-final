@@ -1,8 +1,9 @@
 const router = require('express').Router();
 const pool = require('../db');
+const authorization = require('../middleware/authorization');
 
 
-router.post('/', async function (req, res) {
+router.post('/', authorization, async function (req, res) {
     try {
         const productId = req.body.product_id;
     
