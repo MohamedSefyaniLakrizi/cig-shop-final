@@ -14,6 +14,7 @@ import AddRib from './routes/AddRib';
 import AddRibSuccessful from './routes/AddRibSuccessful';
 import AddRoundSuccessful from './routes/AddRoundSuccessful';
 import AddRoundSuccessfulInvited from './routes/AddRoundSuccessfulInvited';
+import ProductDetails from './ProductDetails';
 import * as Font from 'expo-font';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import RoundComponent from './components/Dart/RoundStarted';
@@ -33,14 +34,21 @@ function AuthStack() {
   );
 }
 
-const MainTabs: React.FC = () => {
+type MainTabsProps = {
+  navigation: NavigationProp<any>;
+};
+
+const MainTabs: React.FC<MainTabsProps> = ({navigation}) => {
   return (
     <BottomTab.Navigator screenOptions={{ headerShown: false }}>
       <BottomTab.Screen name="Home" component={Home} options={{
           tabBarIcon: ({ color, size }) => (
             <Icon name="home" color={color} size={size} />
           ),
-        }} />
+          
+        }} 
+        initialParams={{ navigation: navigation }}
+        />
       <BottomTab.Screen name="Payment" component={Payment} options={{
           tabBarIcon: ({ color, size }) => (
             <Icon name="credit-card" color={color} size={size} />
@@ -59,12 +67,7 @@ const AppTabs: React.FC<AppTabsProps> = () => {
   return (
     <Stack.Navigator>
       <Stack.Screen name="Home" component={Home} options={{ headerShown: false }} />
-      <Stack.Screen name="AddRound" component={AddRound} options={{ headerShown: true, title: 'Add Round' }} />
-      <Stack.Screen name="AddRib" component={AddRib} options={{ headerShown: true, title: 'Add Rib' }} />
-      <Stack.Screen name="AddRibSuccessful" component={AddRibSuccessful} options={{ headerShown: false, title: 'Add Rib Successful' }} />
-      <Stack.Screen name="AddRoundSuccessful" component={AddRoundSuccessful} options={{ headerShown: false, title: 'Add Round Successful' }} />
-      <Stack.Screen name="AddRoundSuccessfulInvited" component={AddRoundSuccessfulInvited} options={{ headerShown: false, title: 'Add Round Successful Invited' }} />
-      <Stack.Screen name="RoundComponent" component={RoundComponent} options={{ headerShown: false, title: 'Round' }} />
+      <Stack.Screen name="ProductDetails" component={ProductDetails} options={{ title: 'Product Details' }} initialParams={ { id: 1 } }/>
     </Stack.Navigator>
   );
 };
@@ -91,7 +94,7 @@ const App: React.FC = () => {
     const checkAuth = async () => {
       try {
         const token = await AsyncStorage.getItem('token');
-        const response = await fetch('http://localhost:5000/auth/is-verify', {
+        const response = await fetch('https://cig-et0r.onrender.com/auth/is-verify', {
         method: 'GET',
         headers: {
           'token': token,

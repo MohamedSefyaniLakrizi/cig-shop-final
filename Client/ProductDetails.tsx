@@ -3,10 +3,9 @@ import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 
 const ProductDetails = ({ route }) => {
   const [product, setProduct] = useState(null);
-
+  const [id, setId] = useState(route.params.id);
   useEffect(() => {
 
-    const { id } = route.params;
     console.log("id in product detail is: " + JSON.stringify(id));
     
     fetch(`https://cig-et0r.onrender.com/product/products/${route.params.id}`)
@@ -15,11 +14,23 @@ const ProductDetails = ({ route }) => {
       .catch(error => console.error(error));
   }, []);
 
-  const addToCart = () => {
-    // add the product to the cart
-    
+  const addToCart = async () => {
+    try {
+        const response = await fetch('https://cig-et0r.onrender.com/cart', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            product_id: id
+          })
+        });
+        const responseData = await response.json();
+        console.log(responseData);
+      } catch (error) {
+        console.error(error);
   };
-
+  };
   if (!product) {
     return (
       <View style={styles.container}>

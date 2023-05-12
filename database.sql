@@ -16,9 +16,9 @@ CREATE TABLE products (
   name TEXT NOT NULL,
   description TEXT,
   price NUMERIC(10,2) NOT NULL,
-  type TEXT NOT NULL
+  type TEXT NOT NULL,
+  image_url TEXT NOT NULL
 );
-
 
 CREATE TABLE orders (
   id SERIAL PRIMARY KEY,

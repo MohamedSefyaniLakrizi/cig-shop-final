@@ -25,7 +25,7 @@ app.use("/user", require("./routes/user"));
 app.use("/displayMonth", require("./routes/displayMonth"));
 
 //update the db//
-
+app.use("/cart", require("./routes/cart"));
 
 //delete from db//
 

@@ -53,7 +53,7 @@ const Login: React.FC<LoginProps> = ({ navigation }) => {
     Keyboard.dismiss();
     setIsLoading(true);
     try {
-      const response = await fetch('https://cig-et0r.onrender.comauth/login', {
+      const response = await fetch('https://cig-et0r.onrender.com/auth/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
