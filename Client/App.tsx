@@ -123,7 +123,7 @@ const App: React.FC = () => {
           <>
             <Stack.Screen name="MainTabs" component={MainTabs} />
             <Stack.Screen name="AppTabs" component={AppTabs} />
-            <Stack.Screen name="ProductDetails" component={ProductDetails} />
+            <Stack.Screen name="ProductDetails" component={ProductDetails}  />
           </>
         )}
       </Stack.Navigator>
