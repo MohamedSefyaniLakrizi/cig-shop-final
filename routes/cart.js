@@ -43,7 +43,7 @@ router.get('/cart/', authorization,  async (req, res) => {
     } 
   });
 
-  router.put('/cart/:product_id', async (req, res) => {
+  router.put('/cart/:product_id', authorization, async (req, res) => {
     try {
       const product_id = parseInt(req.params.product_id);
       const user_id = req.user.id; // assuming you have user authentication implemented

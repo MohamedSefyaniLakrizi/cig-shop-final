@@ -1,31 +1,54 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { useEffect, useState } from 'react';
-import { FlatList, StyleSheet, Text, View, Image } from 'react-native';
+import { FlatList, StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 
 const Payment =  () => {
   const [cartItems, setCartItems] = useState([]);
-  useEffect( () => {
-    const getCart =  async () =>{
-      const token = await AsyncStorage.getItem('token');
-      fetch('https://cig-et0r.onrender.com/cart/cart', {
-        method: 'GET',
-        headers: {
-          token: token,
-        },
+
+
+  const getCart = async () => {
+    const token = await AsyncStorage.getItem('token');
+    fetch('https://cig-et0r.onrender.com/cart/cart', {
+      method: 'GET',
+      headers: {
+        token: token,
+      },
+    })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          setCartItems(data.cartItems);
+        } else {
+          console.error(data.message);
+        }
       })
-        .then(response => response.json())
-        .then(data => {
-          if (data.success) {
-            setCartItems(data.cartItems);
-          } else {
-            console.error(data.message);
-          }
-        })
-        .catch(error => console.error(error));
-    };
+      .catch(error => console.error(error));
+  };
+
+  useEffect( () => {
     getCart();
-      
   }, []);
+
+  const removeCartItem = async (productId) => {
+    console.log("product id is: " + productId);
+    const token = await AsyncStorage.getItem('token');
+    fetch(`https://cig-et0r.onrender.com/cart/cart/${productId}`, {
+      method: 'PUT',
+      headers: {
+        token: token,
+      },
+    })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          // Refresh the cart after removing the item
+          getCart();
+        } else {
+          console.error(data.message);
+        }
+      })
+      .catch(error => console.error(error));
+  };
 
   const renderItem = ({ item }) => (
     <View style={styles.itemContainer}>
@@ -35,10 +58,14 @@ const Payment =  () => {
         <Text style={styles.itemDescription}>{item.description}</Text>
         <Text style={styles.itemPrice}>{item.price} DH</Text>
         <Text style={styles.itemQuantity}>Quantity: {item.quantity}</Text>
+        <TouchableOpacity style={styles.removeItemButton} onPress={() => removeCartItem(item.id)} />
+        <Text style={styles.removeItemButtonText}>Remove Item</Text>
       </View>
     </View>
   );
 
+
+  
   return (
     <View style={styles.container}>
       <FlatList
@@ -95,6 +122,18 @@ const styles = StyleSheet.create({
     fontSize: 18,
     textAlign: 'center',
     marginVertical: 20
+  },
+  removeItemButton: {
+    backgroundColor: '#ff0000',
+    padding: 5,
+    borderRadius: 5,
+    marginLeft: 10
+  },
+  removeItemButtonText: {
+    color: '#fff',
+    fontSize: 14,
+    fontWeight: 'bold',
+    textAlign: 'center'
   }
 });
 
