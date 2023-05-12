@@ -27,4 +27,21 @@ router.post('/', authorization, async function (req, res) {
       }
 });
 
+router.get('/cart/', authorization,  async (req, res) => {
+    try {
+      const result = await pool.query(`
+        SELECT cart_items.id, products.name, products.description, products.price, products.type, products.image_url, cart_items.quantity
+        FROM cart_items
+        INNER JOIN products ON cart_items.product_id = products.id
+        WHERE cart_items.user_id = $1;
+      `, [req.user.id]);
+      const cartItems = result.rows;
+      res.json({ success: true, cartItems });
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ success: false, message: 'An error occurred while retrieving the cart items.' });
+    } 
+  });
+
+
 module.exports = router;

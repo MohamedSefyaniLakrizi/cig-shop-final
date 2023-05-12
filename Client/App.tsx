@@ -49,9 +49,9 @@ const MainTabs: React.FC<MainTabsProps> = ({navigation}) => {
         }} 
         initialParams={{ navigation: navigation }}
         />
-      <BottomTab.Screen name="Payment" component={Payment} options={{
+      <BottomTab.Screen name="Cart" component={Payment} options={{
           tabBarIcon: ({ color, size }) => (
-            <Icon name="credit-card" color={color} size={size} />
+            <Icon name="shopping-cart" color={color} size={size} />
           ),
         }}/>
       <BottomTab.Screen name="Profile" component={Profile} options={{

@@ -1,7 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { StackNavigationProp } from '@react-navigation/stack';
 
-const ProductDetails = ({ route }) => {
+
+type ProductProps = {
+    navigation: StackNavigationProp<any>;
+    route: any;
+  };
+
+
+const ProductDetails: React.FC<ProductProps> = ({ route, navigation }) => {
   const [product, setProduct] = useState(null);
   const [id, setId] = useState(route.params.id);
   useEffect(() => {
@@ -16,10 +25,12 @@ const ProductDetails = ({ route }) => {
 
   const addToCart = async () => {
     try {
+        const token = await AsyncStorage.getItem('token');
         const response = await fetch('https://cig-et0r.onrender.com/cart', {
           method: 'POST',
           headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'token': token
           },
           body: JSON.stringify({
             product_id: id
@@ -27,6 +38,7 @@ const ProductDetails = ({ route }) => {
         });
         const responseData = await response.json();
         console.log(responseData);
+            navigation.navigate('MainTabs', { screen: 'Home' })
       } catch (error) {
         console.error(error);
   };
