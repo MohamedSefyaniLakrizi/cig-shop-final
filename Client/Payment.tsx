@@ -34,15 +34,11 @@ const Payment =  () => {
   const removeCartItem = async (productId) => {
     console.log("product id is: " + productId);
     const token = await AsyncStorage.getItem('token');
-    fetch(`https://cig-et0r.onrender.com/cart/cart/`, {
-      method: 'POST',
+    fetch(`https://cig-et0r.onrender.com/cart/cart/${productId}`, {
+      method: 'PUT',
       headers: {
         token: token,
       },
-      body: JSON.stringify({
-        product_id: productId,
-
-      }),
     })
       .then(response => response.json())
       .then(data => {
